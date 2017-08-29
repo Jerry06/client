@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       host: localhost
-      port: 23451
+      port: 27017
       database: Blog
   thymeleaf:
     cache: false

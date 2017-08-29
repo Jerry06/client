@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -41,71 +42,50 @@ public class FileChooserSample extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(new Group());
-        stage.setTitle("Table View Sample");
+        stage.setTitle("Select File");
         stage.setWidth(800);
-        stage.setHeight(600);
-
-        final Label label = new Label("Address Book");
-        label.setFont(new Font("Arial", 20));
+        stage.setHeight(500);
 
         table.setEditable(true);
 
-        TableColumn firstNameCol = new TableColumn("First Name");
-        firstNameCol.setMinWidth(150);
-        firstNameCol.setCellValueFactory(
-                new PropertyValueFactory<Person, String>("firstName"));
+        TableColumn firstNameCol = new TableColumn("File Name");
+        firstNameCol.setMinWidth(200);
+        firstNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("firstName"));
+//        firstNameCol.prefWidthProperty().bind(table.widthProperty().multiply(0.25));
 
-        TableColumn lastNameCol = new TableColumn("Last Name");
-        lastNameCol.setMinWidth(150);
-        lastNameCol.setCellValueFactory(
-                new PropertyValueFactory<Person, String>("lastName"));
+        TableColumn lastNameCol = new TableColumn("Description");
+        lastNameCol.setMinWidth(400);
+        lastNameCol.setCellValueFactory(new PropertyValueFactory<Person, String>("lastName"));
+//        lastNameCol.prefWidthProperty().bind(table.widthProperty().multiply(0.5));
 
-        TableColumn emailCol = new TableColumn("Email");
-        emailCol.setMinWidth(200);
-        emailCol.setCellValueFactory(
-                new PropertyValueFactory<Person, String>("email"));
+        TableColumn emailCol = new TableColumn("Last Updated Date");
+        emailCol.setMinWidth(150);
+        emailCol.setCellValueFactory(new PropertyValueFactory<Person, String>("email"));
+//        emailCol.prefWidthProperty().bind(table.widthProperty().multiply(0.22));
 
         table.setItems(data);
         table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
 
-        final TextField addFirstName = new TextField();
-        addFirstName.setPromptText("First Name");
-        addFirstName.setMaxWidth(firstNameCol.getPrefWidth());
-        final TextField addLastName = new TextField();
-        addLastName.setMaxWidth(lastNameCol.getPrefWidth());
-        addLastName.setPromptText("Last Name");
-        final TextField addEmail = new TextField();
-        addEmail.setMaxWidth(emailCol.getPrefWidth());
-        addEmail.setPromptText("Email");
 
-        final Button addButton = new Button("Add");
+        final Button addButton = new Button("Select");
         addButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                data.add(new Person(
-                        addFirstName.getText(),
-                        addLastName.getText(),
-                        addEmail.getText()));
-                addFirstName.clear();
-                addLastName.clear();
-                addEmail.clear();
+
             }
         });
-
-        hb.getChildren().addAll(addFirstName, addLastName, addEmail, addButton);
+        hb.setAlignment(Pos.BASELINE_RIGHT);
+        hb.getChildren().addAll(addButton);
         hb.setSpacing(3);
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
-        vbox.getChildren().addAll(label, table, hb);
+        vbox.getChildren().addAll(table, hb);
 
         ((Group) scene.getRoot()).getChildren().addAll(vbox);
 
         stage.setScene(scene);
-
-        stage.setMaximized(true);
-
         stage.show();
     }
 
